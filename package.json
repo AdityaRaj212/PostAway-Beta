@@ -23,14 +23,17 @@
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-scripts": "5.0.1",
-    "web-vitals": "^2.1.4"
+    "serve": "^14.2.3",
+    "web-vitals": "^2.1.4",
+    "concurrently": "^8.2.2"
   },
   "scripts": {
-    "start": "concurrently \"npm run server\" \"serve -s front-end/build\"",
-    "build": "npm run build --prefix front-end",
-    "server": "nodemon back-end/index.js",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+  "start": "concurrently \"npm run server\" \"npm run client\"",
+  "build": "npm run build --prefix front-end",
+  "server": "nodemon back-end/server.js",
+  "client": "serve -s front-end/build",
+  "test": "react-scripts test",
+  "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": [
@@ -53,9 +56,6 @@
   "type": "module",
   "description": "This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).",
   "main": "index.js",
-  "devDependencies": {
-    "concurrently": "^8.2.2"
-  },
   "keywords": [],
   "author": "",
   "license": "ISC"
