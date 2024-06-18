@@ -26,8 +26,9 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "start": "concurrently \"npm run server\" \"serve -s front-end/build\"",
+    "build": "npm run build --prefix front-end",
+    "server": "nodemon back-end/index.js",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
