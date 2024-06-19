@@ -1,13 +1,30 @@
+# #!/usr/bin/env bash
+
+# # Install root dependencies
+# echo "Installing root dependencies..."
+# npm install
+
+# # Install front-end dependencies
+# echo "Installing front-end dependencies..."
+# npm install --prefix front-end
+
+# # Build front-end
+# echo "Building front-end..."
+# npm run build --prefix front-end
+
 #!/usr/bin/env bash
 
-# Install root dependencies
-echo "Installing root dependencies..."
+# Navigate to the front-end directory and install dependencies
+cd front-end
 npm install
 
-# Install front-end dependencies
-echo "Installing front-end dependencies..."
-npm install --prefix front-end
+# Build the front-end
+npm run build
 
-# Build front-end
-echo "Building front-end..."
-npm run build --prefix front-end
+# Navigate back to the root directory
+cd ..
+
+# Navigate to the back-end directory and install dependencies
+cd back-end
+npm install
+
