@@ -20,7 +20,7 @@ server.use(cors());
 server.use(express.static(path.join(`${path.resolve()}`, '../public')));
 
 // console.log('Path: '+path.join(`${path.resolve()}`, '../public'));
-server.use('/public/uploads', express.static(path.join(path.resolve(), '../public/uploads')));
+server.use('/public/uploads', express.static(path.join(path.resolve(), 'public/uploads')));
 // console.log(path.resolve());
 server.use(bodyParser.json());
 server.use(cookieParser());
