@@ -2,7 +2,7 @@ import jwt from 'jsonwebtoken';
 import crypto from 'crypto';
 
 import UserModel from "./users.model.js";
-import transporter from '../middlewares/emailTransporter.middleware.js';
+import transporter from '../../middlewares/emailTransporter.middleware.js';
 
 export default class UserController{
     signUp(req,res,next){

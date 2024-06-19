@@ -5,12 +5,14 @@ import bodyParser from 'body-parser';
 import cors from 'cors';
 import path from 'path';
 
-import userRouter from './users/users.routes.js';
-import postRouter from './posts/posts.routes.js';
-import commentRouter from './comments/comments.routes.js';
-import likesRouter from './likes/likes.routes.js';
+import userRouter from './features/users/users.routes.js';
+import postRouter from './features/posts/posts.routes.js';
+import commentRouter from './features/comments/comments.routes.js';
+import likesRouter from './features/likes/likes.routes.js';
 import jwtAuth from './middlewares/jwt.middleware.js';
 import { uploadFile } from './middlewares/fileUpload.middleware.js';
+import { connectToMongoDB } from './config/mongodb.js';
+import { connectUsingMongoose } from './config/mongoose.js';
 
 
 const server = express();
@@ -46,4 +48,6 @@ server.get('*', (req, res) => {
 
 server.listen(3200,()=>{
     console.log('Server is up and running at 3200');
+    // connectToMongoDB();
+    connectUsingMongoose();
 })
