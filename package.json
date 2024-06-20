@@ -31,7 +31,7 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "node backend/server.js",
+    "start": "node back-end/server.js",
     "build": "npm run build --prefix frontend"
   },
   "eslintConfig": {
