@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # Navigate to the front-end directory and install dependencies
 cd front-end
 npm install
@@ -15,4 +17,3 @@ npm install
 # Move the built front-end files to the back-end public directory
 mkdir -p ./public
 cp -r ../front-end/build/* ./public/
-

@@ -31,12 +31,8 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "node back-end/server.js",
-    "server": "nodemon back-end/server.js",
-    "client": "serve -s front-end/build",
-    "build": "npm run build --prefix front-end",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "start": "node backend/server.js",
+    "build": "npm run build --prefix frontend"
   },
   "eslintConfig": {
     "extends": [
