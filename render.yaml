@@ -4,7 +4,7 @@ services:
     env: node
     plan: free
     buildCommand: ./render-build.sh
-    startCommand: node backend/server.js
+    startCommand: node back-end/server.js
     envVars:
       - key: MONGO_URI
         value: your_mongo_urimongodb+srv://AdityaRaj:adityadev212@cluster0.b7ewnkc.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
