@@ -1,9 +1,15 @@
+import dotenv from 'dotenv';
+dotenv.config();
+
 import jwt from 'jsonwebtoken';
 import crypto from 'crypto';
 
 import UserModel from "./users.model.js";
 import transporter from '../../middlewares/emailTransporter.middleware.js';
 import UserRepository from './users.repository.js';
+
+const secretKey = process.env.JWT_SECRET;
+// console.log('Secret key: ' + secretKey);
 
 export default class UserController{
     constructor(){

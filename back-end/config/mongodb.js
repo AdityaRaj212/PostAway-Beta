@@ -1,11 +1,17 @@
 import {MongoClient} from 'mongodb';
+import dotenv from 'dotenv';
 
-let url = "mongodb://127.0.0.1:27017/post-away";
+dotenv.config();
+
+// let url = "mongodb://127.0.0.1:27017/post-away";
 let client;
+let db;
 
 export const connectToMongoDB = () => {
+    const url = process.env.MONGO_URI;
     MongoClient.connect(url).then((clientInstance)=>{
         client = clientInstance;
+        db = client.db(process.env.DB_NAME)
         console.log('Connected to MongoDB');
     }).catch((err)=>{
         console.log(err);
@@ -13,5 +19,8 @@ export const connectToMongoDB = () => {
 }
 
 export const getDB = () => {
-    return client.db();
+    if (!db) {
+        throw new Error('MongoDB client is not initialized. Call connectToMongoDB first.');
+    }
+    return db;
 }
