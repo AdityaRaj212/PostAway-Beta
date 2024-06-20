@@ -47,7 +47,7 @@ const ProfilePage = () => {
                 <div className={styles.stickyComponents}>
 
                     <div className={styles.logo}>
-                        <a href="/"><img src="/Post-Away_transparent.png"/></a>
+                        <a href="/"><img src="/public/uploads/Post-Away_transparent.png"/></a>
                     </div>
 
                     <div className={`${styles.createPost} ${styles.clickable}`}>

@@ -45,7 +45,7 @@ export default class PostController{
         console.log(req.body);
         console.log(req.file);
         const {caption} = req.body;
-        const imagePath = req.file ? `/uploads/${req.file.filename}` : "";
+        const imagePath = req.file ? `/public/uploads/${req.file.filename}` : "";
         await this.postRepository.createPost(userId,caption,imagePath);
         res.status(201).redirect('/');
     }

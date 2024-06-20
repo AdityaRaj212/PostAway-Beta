@@ -89,7 +89,7 @@ const Home = () => {
             <div className={styles.column1}>
                 <div className={styles.stickyComponents}>
                     <div className={styles.logo}>
-                        <a href="/"><img src="../../Post-Away_transparent.png" alt="Logo" /></a>
+                        <a href="/"><img src="/public/uploads/Post-Away_transparent.png" alt="Logo" /></a>
                     </div>
 
                     <div className={`${styles.createPost} ${styles.clickable}`}>
