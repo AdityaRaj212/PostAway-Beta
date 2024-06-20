@@ -3,21 +3,26 @@ import crypto from 'crypto';
 
 import UserModel from "./users.model.js";
 import transporter from '../../middlewares/emailTransporter.middleware.js';
+import UserRepository from './users.repository.js';
 
 export default class UserController{
-    signUp(req,res,next){
+    constructor(){
+        this.userRepository = new UserRepository();
+    }
+
+    async signUp(req,res,next){
         const {name,email,password} = req.body;
-        const newUser = UserModel.addUser(name,email,password);
+        const newUser = await this.userRepository.addUser(name,email,password);
         res.status(201).send(newUser);
     }
 
-    signIn(req,res,next){
+    async signIn(req,res,next){
         const {email,password} = req.body;
-        const user = UserModel.getUser(email,password);
+        const user = await this.userRepository.getUser(email,password);
         if(user){
             const token = jwt.sign(
                 {
-                    userId: user.userId,
+                    userId: user._id,
                     email: user.email
                 },
                 'secret',
@@ -28,7 +33,7 @@ export default class UserController{
             res.cookie('jwtToken',token,{
                 maxAge: 24*60*60*1000
             });
-            res.cookie('userId',user.userId,{
+            res.cookie('userId',user._id,{
                 maxAge: 24*60*60*1000
             })
             res.cookie('userInfo',JSON.stringify(user),{
@@ -44,9 +49,9 @@ export default class UserController{
         }
     }
 
-    getUserFromId(req,res,next){
+    async getUserFromId(req,res,next){
         const userId = req.params.userId;
-        const user = UserModel.getOneUser(userId);
+        const user = await this.userRepository.getOneUser(userId);
         res.status(200).send(user);
     }
 
@@ -58,31 +63,33 @@ export default class UserController{
         }
     }
 
-    addFollower(req,res,next){
+    async addFollower(req,res,next){
         const currUserId = req.cookies.userId;
         const userId = req.params.userId;
-        UserModel.addFollower(currUserId,userId);
+        // console.log("curr user id " + currUserId)
+        // console.log("User id " + userId)
+        await this.userRepository.addFollower(currUserId,userId);
         res.status(201).send('Follower added');
     }
 
-    removeFollowing(req,res,next){
+    async removeFollowing(req,res,next){
         const currUserId = req.cookies.userId;
         const userId = req.params.userId;
-        UserModel.removeFollowing(currUserId,userId);
+        await this.userRepository.removeFollowing(currUserId,userId);
         res.status(201).send('Following removed');
     }
 
-    removeFollower(req,res,next){
+    async removeFollower(req,res,next){
         const currUserId = req.cookies.userId;
         const userId = req.params.userId;
-        UserModel.removeFollower(currUserId,userId);
+        await this.userRepository.removeFollower(currUserId,userId);
         res.status(201).json({message: 'Follower removed'});
     }
 
-    getIsFollower(req,res,next){
-        const currUserId = req.cookies.userId;
+    async getIsFollower(req,res,next){
+        const currUserId = req.cookies.userInfo._id;
         const userId = req.params.userId;
-        const result = UserModel.isFollower(currUserId,userId);
+        const result = await this.userRepository.isFollower(currUserId,userId);
         res.status(200).send(result);
     }
 
@@ -93,7 +100,7 @@ export default class UserController{
         const otpExpires = Date.now() + 5*60*1000; // valid for 5 minutes
 
         try{
-                UserModel.setOtp(userId,email,otp,otpExpires);
+                await this.userRepository.setOtp(userId,email,otp,otpExpires);
 
                 await transporter.sendMail({
                     to: email,
@@ -111,13 +118,14 @@ export default class UserController{
     async verifyOtp(req,res,next){
         const {email, otp} = req.body;
         const userId = req.cookies.userId;
+        console.log(req.cookies.userId);
 
         try{
-            const isValid =  UserModel.verifyOtp(userId,email,otp);
+            const isValid =  await this.userRepository.verifyOtp(userId,email,otp);
             if(isValid){
                 res.status(200).json({message: 'OTP verified'});
             }else{
-                console.log('error');
+                console.log('Error while verifying OTP');
                 res.status(400).json({error: 'Invalid or expired OTP'});
             }
         }catch(err){
@@ -126,10 +134,10 @@ export default class UserController{
         }
     }
 
-    changeUserName(req,res,next){
+    async changeUserName(req,res,next){
         const {newUserName} = req.body;
         const userId = req.cookies.userId;
-        UserModel.newUserName(userId, newUserName);
+        await this.userRepository.newUserName(userId, newUserName);
         res.status(201).json({message: "UserName updated successfully"});
     }
 }

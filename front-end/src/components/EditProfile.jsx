@@ -27,7 +27,15 @@ const EditProfile = () => {
   const [newUserName, setNewUserName] = useState(userName);
   const otpRefs = useRef([React.createRef(), React.createRef(), React.createRef(), React.createRef()]);
 
-  const handleClose = () => setShow(false);
+  const handleClose = () => {
+    setShow(false);
+    if(otpVerified){
+      setOtpSent(false);
+      setOtpReceived(false);
+      setOtp(['', '', '', '']);
+      handleShowEditEmail();
+    }
+  };
   const handleShow = () => setShow(true);
   const handleShowEditEmail = () => setShowEditEmail(!showEditEmail);
   const handleUserNameChange = (e) => setNewUserName(e.target.value);
@@ -43,9 +51,13 @@ const EditProfile = () => {
         toast.success(response.data.message);
       } else {
         toast.error(response.data.error);
+        setOtpReceived(false);
+        setOtpSent(false);
       }
     } catch (error) {
       toast.error('Error sending OTP');
+      setOtpReceived(false);
+      setOtpSent(false);
     }
   };
 
@@ -57,6 +69,8 @@ const EditProfile = () => {
         setOtpVerified(true);
         setUserEmail(newEmail);
         toast.success(response.data.message);
+        toast.success('Email-ID updated successfully');
+        handleClose();
       } else {
         toast.error(response.data.error);
       }
@@ -81,7 +95,7 @@ const EditProfile = () => {
     try {
       const response = await axios.post('/api/users/update-name', { newUserName });
       changeUserName(newUserName);
-      userName = newUserName;
+      // userName = newUserName;
       console.log(newUserName);
       console.log(userName);
       toast.success('User name updated');
@@ -158,7 +172,7 @@ const EditProfile = () => {
                             role="status"
                             aria-hidden="true"
                           />
-                          <span className="visually-hidden">Loading...</span>
+                          {/* <span className="visually-hidden">Loading...</span> */}
                         </Button>
                       </div>
                     )}

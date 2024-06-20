@@ -5,10 +5,20 @@ const router = express.Router();
 
 const likeController = new LikesController();
 
-router.get('/posts-liked-by-user',likeController.getPostIdsLikedByUser);
-router.get('/toggle/:postId',likeController.toggleLike);
-router.get('/likes-for-a-post/:postId',likeController.getLikesForAPost);
-router.get('/is-liked-by-user/:postId',likeController.getIsLikedByUser);
-router.get('/:postId',likeController.getLikes);
+router.get('/posts-liked-by-user',(req,res)=>{
+    likeController.getPostIdsLikedByUser(req,res);
+});
+router.get('/toggle/:postId',(req,res)=>{
+    likeController.toggleLike(req,res);
+});
+router.get('/likes-for-a-post/:postId',(req,res)=>{
+    likeController.getLikesForAPost(req,res);
+});
+router.get('/is-liked-by-user/:postId',(req,res)=>{
+    likeController.getIsLikedByUser(req,res);
+});
+router.get('/:postId',(req,res)=>{
+    likeController.getLikes(req,res);
+});
 
 export default  router;

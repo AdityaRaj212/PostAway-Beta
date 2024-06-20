@@ -28,7 +28,7 @@ const EditPostModal = ({post,onUpdate}) => {
     }
 
     try{
-      const response = await axios.put(`/api/posts/${post.postId}`,formData,{
+      const response = await axios.put(`/api/posts/${post._id}`,formData,{
         headers:{
           'Content-Type': 'multipart/form-data'
         }

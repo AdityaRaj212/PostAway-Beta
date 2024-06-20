@@ -5,6 +5,7 @@
 
 .column1 {
     width: 30%;
+    min-height: 100vh;  
     padding: 1rem;
     border-right: 1px solid white;
     border-radius: 10px;

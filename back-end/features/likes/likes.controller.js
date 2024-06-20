@@ -1,9 +1,14 @@
 import LikeModel from "./likes.model.js";
+import LikeRepository from "./likes.repository.js";
 
 export default class LikesController{
-    getLikes(req,res,next){
+    constructor(){
+        this.likesRepository = new LikeRepository();
+    }
+
+    async getLikes(req,res,next){
         const postId = req.params.postId;
-        const likes = LikeModel.getLikesByPost(postId);
+        const likes = await this.likesRepository.getLikesByPost(postId);
         if(likes){
             res.status(200).send(likes);
         }else{
@@ -11,10 +16,10 @@ export default class LikesController{
         }
     }
 
-    toggleLike(req,res,next){
+    async toggleLike(req,res,next){
         const userId = req.userId;
         const postId = req.params.postId;
-        const likeResult = LikeModel.toggleStatus(userId,postId);
+        const likeResult = await this.likesRepository.toggleStatus(userId,postId);
         if(likeResult){
             res.status(201).send('Action complete');
         }else{
@@ -22,22 +27,25 @@ export default class LikesController{
         }
     }
 
-    getLikesForAPost(req,res,next){
+    async getLikesForAPost(req,res,next){
         const postId = req.params.postId;
-        const likes = LikeModel.likesForAPost(postId);
+        const likes = await this.likesRepository.likesForAPost(postId);
         res.status(200).send(likes);
     }
 
-    getPostIdsLikedByUser(req,res,next){
+    async getPostIdsLikedByUser(req,res,next){
         const userId = req.cookies.userId;
-        const likes = LikeModel.postsLikedByUser(userId);
+        const likes = await this.likesRepository.postsLikedByUser(userId);
         res.status(200).send(likes);
     }
 
-    getIsLikedByUser(req,res,next){
+    async getIsLikedByUser(req,res,next){
         const userId = req.cookies.userId;
         const postId = req.params.postId;
-        const liked = LikeModel.isLikedByUser(userId,postId);
+        // console.log(userId);
+        // console.log(req.cookies);
+        console.log(postId);
+        const liked = await this.likesRepository.isLikedByUser(userId,postId);
         res.status(200).send(liked);
     }
 }

@@ -17,7 +17,7 @@ const ShortProfileByUserId = ({userId}) => {
     }, [userId]);
 
     return(
-        <Link to={`/profile/${user.userId}`} className={`${styles.profileLink} ${styles.clickable}`}>
+        <Link to={`/profile/${user._id}`} className={`${styles.profileLink} ${styles.clickable}`}>
             <div className={styles.profile}>
                 <div className={styles.profileImg}>
                     <ProfileImg user={user}/>

@@ -61,8 +61,8 @@ const LikedPosts = ({userId}) => {
             try {
                 const updatedPosts = await Promise.all(
                     posts.map(async (post) => {
-                        const likesResponse = await axios.get(`/api/likes/likes-for-a-post/${post.postId}`);
-                        const commentsResponse = await axios.get(`/api/comments/comments-for-a-post/${post.postId}`);
+                        const likesResponse = await axios.get(`/api/likes/likes-for-a-post/${post._id}`);
+                        const commentsResponse = await axios.get(`/api/comments/comments-for-a-post/${post._id}`);
                         const userResponse = await axios.get(`/api/users/get-user-by-id/${post.userId}`);
 
                         return {
@@ -86,8 +86,8 @@ const LikedPosts = ({userId}) => {
 
     const handleUpdatePost = async (updatedPost) => {
         try {
-            const likesResponse = await axios.get(`/api/likes/likes-for-a-post/${updatedPost.postId}`);
-            const commentsResponse = await axios.get(`/api/comments/comments-for-a-post/${updatedPost.postId}`);
+            const likesResponse = await axios.get(`/api/likes/likes-for-a-post/${updatedPost._id}`);
+            const commentsResponse = await axios.get(`/api/comments/comments-for-a-post/${updatedPost._id}`);
             const userResponse = await axios.get(`/api/users/get-user-by-id/${userId}`);
 
             const likes = likesResponse.data;
@@ -96,7 +96,7 @@ const LikedPosts = ({userId}) => {
 
             setPosts((prevPosts) =>
                 prevPosts.map((post) =>
-                    post.postId === updatedPost.postId
+                    post._id === updatedPost._id
                         ? { ...updatedPost, likes, comments, user }
                         : post
                 )
@@ -123,10 +123,10 @@ const LikedPosts = ({userId}) => {
                     </Card.Body>
                 </Card>
             )}
-            {!loading && posts.length === 0 && (<span>You have not posted anything yet.</span>)}
+            {!loading && posts.length === 0 && (<span>You have not liked any post yet.</span>)}
             {posts.length >0 && (
                 posts.map(post=>(
-                    <div key={post.postId} className={styles.post}>
+                    <div key={post._id} className={styles.post}>
                             <div className="d-flex justify-content-around">
                                 {!loading && (
                                     <Card className={styles.card} style={{ width: '18rem' }}>
@@ -137,7 +137,7 @@ const LikedPosts = ({userId}) => {
                                             </div>
                                         </div>
                                         {post.imagePath==='' && (
-                                            <Card.Img class={styles.postImage} variant="top" src='../../public/uploads/noImageAvailable.png' />
+                                            <Card.Img class={styles.postImage} variant="top" src='/uploads/noImageAvailable.png' />
                                         )}
                                         {post.imagePath!=='' && (
                                             <Card.Img class={styles.postImage} variant="top" src={post.imagePath} />

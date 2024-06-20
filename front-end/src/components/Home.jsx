@@ -60,7 +60,7 @@ const Home = () => {
     const fetchPosts = async () => {
         try {
             const response = await axios.get('/api/posts/all');
-            setPosts(response.data);
+            setPosts(response.data.reverse());
             setLoadingPosts(false); // Set loading state to false when posts are fetched
         } catch (err) {
             console.log("Error while fetching posts: " + err);

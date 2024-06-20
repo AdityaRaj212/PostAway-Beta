@@ -5,10 +5,20 @@ const router = express.Router();
 
 const commentController = new CommentController();
 
-router.get('/:postId',commentController.getAllComments);
-router.get('/comments-for-a-post/:postId',commentController.getCommentsForAPost);
-router.post('/:postId',commentController.createComment);
-router.put('/:id',commentController.updateComment);
-router.delete('/:id',commentController.deleteComment);
+router.get('/:postId',(req,res)=>{
+    commentController.getAllComments(req,res);
+});
+router.get('/comments-for-a-post/:postId',(req,res)=>{
+    commentController.getCommentsForAPost(req,res);
+});
+router.post('/:postId',(req,res)=>{
+    commentController.createComment(req,res);
+});
+router.put('/:id',(req,res)=>{
+    commentController.updateComment(req,res);
+});
+router.delete('/:id',(req,res)=>{
+    commentController.deleteComment(req,res);
+});
 
 export default router;

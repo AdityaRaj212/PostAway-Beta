@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import styles from './ProfilePage.module.css';
 import CreatePost from './CreatePost';
@@ -11,11 +11,13 @@ import { useParams } from 'react-router-dom';
 import EditProfile from './EditProfile';
 import ManageButton from './ManageButton';
 import { Link } from 'react-router-dom';
+import { UserContext } from './UserContext';
 
 const ProfilePage = () => {
     const {userId} = useParams();
     const [user,setUser] = useState({});
     const [currUserId,setCurrUserId] = useState(null);
+    const {userName} = useContext(UserContext);
 
     useEffect(()=>{
 
@@ -31,7 +33,7 @@ const ProfilePage = () => {
             console.log('user: '+user);
         }
         fetchUser();
-    },[userId, user.name])
+    },[userId, user.name, userName])
 
     let bgColor;
     if(user.name){
@@ -66,10 +68,10 @@ const ProfilePage = () => {
                         <div className={styles.textualInfo}>
                             <div className={styles.nameAndProfile}>
                                 <div className={styles.userName}>
-                                    <FontAwesomeIcon icon={faAt} /> {user.name}
+                                    <FontAwesomeIcon icon={faAt} /> {userName}
                                 </div>
                                 {
-                                    (currUserId==user.userId) &&
+                                    (currUserId==user._id) &&
                                     (<EditProfile/>)
                                 }
                             </div>

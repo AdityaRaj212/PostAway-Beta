@@ -34,9 +34,9 @@ const PostBox = ({post,fetchPosts})=>{
     const showCommentsRef = useRef(null);
 
     const handleLike = async () => {
-        const likeResp = await axios.get(`/api/likes/toggle/${post.postId}`); 
+        const likeResp = await axios.get(`/api/likes/toggle/${post._id}`); 
         
-        const likeResponse = await axios.get(`/api/likes/likes-for-a-post/${post.postId}`);
+        const likeResponse = await axios.get(`/api/likes/likes-for-a-post/${post._id}`);
         setLikes(likeResponse.data);
 
         setLiked(!liked);
@@ -51,7 +51,7 @@ const PostBox = ({post,fetchPosts})=>{
     }
 
     const commentPosted = async () => {
-        const commentsResponse = await axios.get(`/api/comments/${post.postId}`);
+        const commentsResponse = await axios.get(`/api/comments/${post._id}`);
         console.log(commentsResponse.data);
         setComments(commentsResponse.data);
     }
@@ -59,17 +59,17 @@ const PostBox = ({post,fetchPosts})=>{
     useEffect(()=>{
         const fetchDetails = async ()=>{
             try{
-                const userResponse = await axios.get(`/api/posts/user/${post.postId}`);
+                const userResponse = await axios.get(`/api/posts/user/${post._id}`);
                 setUser(userResponse.data);
                 
-                const likeResponse = await axios.get(`/api/likes/likes-for-a-post/${post.postId}`);
+                const likeResponse = await axios.get(`/api/likes/likes-for-a-post/${post._id}`);
                 setLikes(likeResponse.data);
 
-                const likedResponse = await axios.get(`/api/likes/is-liked-by-user/${post.postId}`);
-                // console.log(`Post Id: ${post.postId}` + likedResponse.data);
+                const likedResponse = await axios.get(`/api/likes/is-liked-by-user/${post._id}`);
+                // console.log(`Post Id: ${post._id}` + likedResponse.data);
                 setLiked(likedResponse.data);
 
-                const commentsResponse = await axios.get(`/api/comments/${post.postId}`);
+                const commentsResponse = await axios.get(`/api/comments/${post._id}`);
                 setComments(commentsResponse.data);
 
                 // const currUserResponse = await axios.get('/api/users/get-user-id-of-logged-in-user');
@@ -136,7 +136,7 @@ const PostBox = ({post,fetchPosts})=>{
                 <div className={styles.userInfo}>
                     <ShortProfile user={user}/>
                     {
-                        currUserId!=user.userId 
+                        currUserId!=user._id 
                         &&
                         (
                             <FollowButton user={user} fetchPosts={fetchPosts}/>
@@ -172,7 +172,7 @@ const PostBox = ({post,fetchPosts})=>{
                 </div>
 
                 <div ref={addCommentRef} className={`${styles.addComment} ${showCommentField ? `${styles.show}` : `${styles.hidden}`}`}>
-                    {showCommentField && <AddComment postId={post.postId} onCommentPosted={commentPosted}/>}
+                    {showCommentField && <AddComment postId={post._id} onCommentPosted={commentPosted}/>}
                 </div>
 
                 <div className={styles.showComments}>

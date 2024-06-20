@@ -1,9 +1,14 @@
 import CommentModel from "./comments.model.js";
+import CommentRepository from "./comments.repository.js";
 
 export default class CommentController{
-    getAllComments(req,res,next){
+    constructor(){
+        this.commentRepository = new CommentRepository();
+    }
+
+    async getAllComments(req,res,next){
         const postId = req.params.postId;
-        const comments = CommentModel.getComments(postId);
+        const comments = await this.commentRepository.getComments(postId);
         if(comments){
             res.status(200).send(comments);
         }else{
@@ -11,11 +16,11 @@ export default class CommentController{
         }
     }
 
-    createComment(req,res,next){
+    async createComment(req,res,next){
         const userId = req.userId;
         const postId = req.params.postId;
         const content = req.body.content;
-        const newComment = CommentModel.addComment(userId,postId,content);
+        const newComment = await this.commentRepository.addComment(userId,postId,content);
         if(newComment){
             res.status(201).send(newComment);
         }else{
@@ -23,11 +28,11 @@ export default class CommentController{
         }
     }
 
-    updateComment(req,res,next){
+    async updateComment(req,res,next){
         const userId = req.userId;
         const content = req.body.content;
         const commentId = req.params.id;
-        const updateResult = CommentModel.updateComment(userId,commentId, content);
+        const updateResult = await this.commentRepository.updateComment(userId,commentId, content);
         if(updateResult){
             res.status(201).send(updateResult);
         }else{
@@ -35,10 +40,10 @@ export default class CommentController{
         }
     }
 
-    deleteComment(req,res,next){
+    async deleteComment(req,res,next){
         const userId = req.userId;
         const commentId = req.params.id;
-        const deleteResult = CommentModel.deleteComment(commentId,userId);
+        const deleteResult = await this.commentRepository.deleteComment(commentId,userId);
         if(deleteResult){
             res.status(201).send('Comment deleted successfully');
         }else{
@@ -46,9 +51,9 @@ export default class CommentController{
         }
     }
 
-    getCommentsForAPost(req,res,next){
+    async getCommentsForAPost(req,res,next){
         const postId = req.params.postId;
-        const comments = CommentModel.commentsForAPost(postId);
+        const comments = await this.commentRepository.commentsForAPost(postId);
         res.status(200).send(comments);
     }
 }

@@ -17,7 +17,7 @@ export const UserProvider = ({children}) => {
             if (info) {
                 const userInfo = JSON.parse(info);
                 setUserName(userInfo.name);
-                setUserId(userInfo.userId);
+                setUserId(userInfo._id);
                 setUserEmail(userInfo.email);
                 setUserPassword(userInfo.password);
                 setFollowerIds(userInfo.followerIds || []);
@@ -29,7 +29,9 @@ export const UserProvider = ({children}) => {
     }, []);
 
     const addFollowing = (id) => {
-        setFollowingIds((prevIds) => [...prevIds, id]);
+        if(!followingIds.includes(id)){
+            setFollowingIds((prevIds) => [...prevIds, id]);
+        }
     };
 
     const removeFollowing = (id) => {

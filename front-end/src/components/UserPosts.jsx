@@ -23,8 +23,8 @@ const UserPosts = ({userId}) => {
             
                     const updatedPosts = await Promise.all(
                       postsData.map(async (post) => {
-                        const likesResponse = await axios.get(`/api/likes/likes-for-a-post/${post.postId}`);
-                        const commentsResponse = await axios.get(`/api/comments/comments-for-a-post/${post.postId}`);
+                        const likesResponse = await axios.get(`/api/likes/likes-for-a-post/${post._id}`);
+                        const commentsResponse = await axios.get(`/api/comments/comments-for-a-post/${post._id}`);
 
                         setLikes(likesResponse.data);
                         setComments(commentsResponse.data);
@@ -50,14 +50,14 @@ const UserPosts = ({userId}) => {
 
     const handleUpdatePost = async (updatedPost) => {
         try {
-            const likesResponse = await axios.get(`/api/likes/likes-for-a-post/${updatedPost.postId}`);
-            const commentsResponse = await axios.get(`/api/comments/comments-for-a-post/${updatedPost.postId}`);
+            const likesResponse = await axios.get(`/api/likes/likes-for-a-post/${updatedPost._id}`);
+            const commentsResponse = await axios.get(`/api/comments/comments-for-a-post/${updatedPost._id}`);
             const likes = likesResponse.data;
             const comments = commentsResponse.data;
 
             setPosts((prevPosts) =>
                 prevPosts.map((post) =>
-                    post.postId === updatedPost.postId
+                    post._id === updatedPost._id
                         ? { ...updatedPost, likes, comments }
                         : post
                 )
@@ -92,7 +92,7 @@ const UserPosts = ({userId}) => {
                                 {!loading && (
                                     <Card className={styles.card} style={{ width: '18rem' }}>
                                         {post.imagePath==='' && (
-                                            <Card.Img class={styles.postImage} variant="top" src='../../public/uploads/noImageAvailable.png' />
+                                            <Card.Img class={styles.postImage} variant="top" src='/uploads/noImageAvailable.png' />
                                         )}
                                         {post.imagePath!=='' && (
                                             <Card.Img class={styles.postImage} variant="top" src={post.imagePath} />
