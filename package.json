@@ -32,7 +32,7 @@
   },
   "scripts": {
     "start": "node back-end/server.js",
-    "build": "npm run build --prefix frontend"
+    "build": "npm run build --prefix front-end"
   },
   "eslintConfig": {
     "extends": [
