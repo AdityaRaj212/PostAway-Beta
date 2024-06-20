@@ -39,7 +39,8 @@ const PostBox = ({post,fetchPosts})=>{
         const likeResponse = await axios.get(`/api/likes/likes-for-a-post/${post._id}`);
         setLikes(likeResponse.data);
 
-        setLiked(!liked);
+        console.log(likeResp.data);
+        setLiked(likeResp.data);
     }
 
     const handleAddComment = () => {

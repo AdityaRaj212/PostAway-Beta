@@ -3,6 +3,7 @@ import Button from 'react-bootstrap/Button';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 import styles from './ManageFollowing.module.css';
 import axios from 'axios';
+import Alert from 'react-bootstrap/Alert';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleDot,faUserSlash } from '@fortawesome/free-solid-svg-icons';
@@ -50,18 +51,31 @@ const ManageFollowing = ({ name, ...props }) => {
         </Offcanvas.Header>
         <Offcanvas.Body>
         {
-          followingIds.map((followingId) => (
-            <div className={styles.userCard}>
-              <div key={followingId} className={styles.userProfile}>
-                <ShortProfileByUserId userId={followingId} /> 
+          (followingIds.length!=0) &&
+          (
+            followingIds.map((followingId) => (
+              <div className={styles.userCard}>
+                <div key={followingId} className={styles.userProfile}>
+                  <ShortProfileByUserId userId={followingId} /> 
+                </div>
+                <div className={styles.removeFollower}>
+                  <button onClick={() => handleRemoveFollowing(followingId)}>
+                    <FontAwesomeIcon icon={faUserSlash} />
+                  </button>
+                </div>
               </div>
-              <div className={styles.removeFollower}>
-                <button onClick={() => handleRemoveFollowing(followingId)}>
-                  <FontAwesomeIcon icon={faUserSlash} />
-                </button>
-              </div>
+            ))
+          )
+        }
+        {
+          (followingIds.length==0) &&
+          (
+            <div>
+              <Alert key='info' variant='info'>
+                You are not following anyone 
+              </Alert>
             </div>
-          ))
+          )
         }
         </Offcanvas.Body>
       </Offcanvas>

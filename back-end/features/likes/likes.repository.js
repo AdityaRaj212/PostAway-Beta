@@ -16,21 +16,22 @@ export default class LikeRepository{
         try{
             const postFound = await PostModel.exists({_id: postId});
             if(!postFound){
-                return false;
+                return {found: false, liked: false};
             }
 
             const like = await LikeModel.findOne({userId, postId});
 
             if(like){
                 await LikeModel.deleteOne({_id: like._id});
+                return {found: true, liked: false};
             }else{
                 const newLike = new LikeModel({
                     userId,
                     postId
                 });
                 await newLike.save();
+                return {found: true, liked: true};
             }
-            return true;
         }catch(err){
             console.log('Error while fetching like status: ' + err);
             throw err;
@@ -59,8 +60,9 @@ export default class LikeRepository{
 
     async isLikedByUser(userId, postId){
         try{
-            const like = LikeModel.findOne({userId, postId});
-            return like? false : true;
+            const like = await LikeModel.findOne({userId, postId});
+            console.log('Like status: ' + like);
+            return like? true : false;
         }catch(err){
             console.log('Error while getting posts liked by user: ' + err);
             throw err;

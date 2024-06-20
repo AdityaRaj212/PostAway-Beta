@@ -3,6 +3,7 @@ import Button from 'react-bootstrap/Button';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 import styles from './ManageFollowers.module.css';
 import axios from 'axios';
+import Alert from 'react-bootstrap/Alert';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleDot,faUserSlash } from '@fortawesome/free-solid-svg-icons';
@@ -17,6 +18,7 @@ const ManageFollowers = ({ name, ...props }) => {
 
   useEffect(() => {
     setFollowerIds(initialFollowerIds);
+    // console.log('Follower Ids: ' + (followerIds.length==0)); 
   }, [initialFollowerIds]);
 
 
@@ -50,18 +52,31 @@ const ManageFollowers = ({ name, ...props }) => {
         </Offcanvas.Header>
         <Offcanvas.Body>
         {
-          followerIds.map((followerId) => (
-            <div className={styles.userCard}>
-              <div key={followerId} className={styles.userProfile}>
-                <ShortProfileByUserId userId={followerId} />
+          (followerIds.length==0) && 
+          (
+            followerIds.map((followerId) => (
+              <div className={styles.userCard}>
+                <div key={followerId} className={styles.userProfile}>
+                  <ShortProfileByUserId userId={followerId} />
+                </div>
+                <div className={styles.removeFollower}>
+                  <button onClick={() => handleRemoveFollower(followerId)}>
+                    <FontAwesomeIcon icon={faUserSlash} />
+                  </button>
+                </div>
               </div>
-              <div className={styles.removeFollower}>
-                <button onClick={() => handleRemoveFollower(followerId)}>
-                  <FontAwesomeIcon icon={faUserSlash} />
-                </button>
-              </div>
+            ))
+          )
+        }
+        {
+          (followerIds.length==0) &&
+          (
+            <div>
+              <Alert key='info' variant='info'>
+              You don't have any follower yet. 
+              </Alert>
             </div>
-          ))
+          )
         }
         </Offcanvas.Body>
       </Offcanvas>

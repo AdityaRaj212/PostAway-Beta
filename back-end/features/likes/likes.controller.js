@@ -20,8 +20,8 @@ export default class LikesController{
         const userId = req.userId;
         const postId = req.params.postId;
         const likeResult = await this.likesRepository.toggleStatus(userId,postId);
-        if(likeResult){
-            res.status(201).send('Action complete');
+        if(likeResult.found){
+            res.status(201).send(likeResult.liked);
         }else{
             res.status(500).send('Post not found');
         }
