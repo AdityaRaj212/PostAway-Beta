@@ -34,7 +34,7 @@ export default class LikesController{
     }
 
     async getPostIdsLikedByUser(req,res,next){
-        const userId = req.cookies.userId;
+        const userId = req.params.userId;
         const likes = await this.likesRepository.postsLikedByUser(userId);
         res.status(200).send(likes);
     }

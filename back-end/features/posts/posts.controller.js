@@ -81,4 +81,10 @@ export default class PostController{
         const user = await this.postRepository.getUsersByPost(postId);
         res.status(200).send(user);
     }
+
+    async getOneUserPosts(req,res,next){
+        const userId = req.params.userId;
+        const posts = await this.postRepository.getPostsByUserId(userId);
+        res.status(200).send(posts);
+    }
 }

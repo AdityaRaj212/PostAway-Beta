@@ -5,7 +5,7 @@ const router = express.Router();
 
 const likeController = new LikesController();
 
-router.get('/posts-liked-by-user',(req,res)=>{
+router.get('/posts-liked-by-user/:userId',(req,res)=>{
     likeController.getPostIdsLikedByUser(req,res);
 });
 router.get('/toggle/:postId',(req,res)=>{

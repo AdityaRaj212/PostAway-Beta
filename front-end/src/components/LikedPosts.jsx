@@ -16,6 +16,7 @@ const LikedPosts = ({userId}) => {
     const [comments,setComments] = useState([]);
     const [loading,setLoading] = useState(true);
     const [currUserId,setCurrUserId] = useState(null);
+    const [userName, setUserName] = useState('');
 
     useEffect(()=>{
         const fetchUserId = async () => {
@@ -32,9 +33,12 @@ const LikedPosts = ({userId}) => {
     useEffect(()=>{
         const fetchPosts = async () => {
             try {
-                const postIdsResponse = await axios.get('/api/likes/posts-liked-by-user');
+                const postIdsResponse = await axios.get(`/api/likes/posts-liked-by-user/${userId}`);
                 const postIds = postIdsResponse.data;
                 console.log(postIds);
+
+                const userNameResponse = await axios.get(`/api/users/get-user-by-id/${userId}`);
+                setUserName(userNameResponse.data.name);
 
                 const postArr = await Promise.all(postIds.map(async (like) => {
                     const postResponse = await axios.get(`/api/posts/${like.postId}`);
@@ -123,7 +127,7 @@ const LikedPosts = ({userId}) => {
                     </Card.Body>
                 </Card>
             )}
-            {!loading && posts.length === 0 && (<span>You have not liked any post yet.</span>)}
+            {!loading && posts.length === 0 && (<span>{userName} has not liked any post yet.</span>)}
             {posts.length >0 && (
                 posts.map(post=>(
                     <div key={post._id} className={styles.post}>

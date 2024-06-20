@@ -13,13 +13,17 @@ const UserPosts = ({userId}) => {
     const [likes,setLikes] = useState([]);
     const [comments,setComments] = useState([]);
     const [loading,setLoading] = useState(true);
+    const [userName, setUserName] = useState('');
 
     useEffect(()=>{
         
             const fetchPosts = async () => {
                 try {
-                    const postsResponse = await axios.get('/api/posts/');
+                    const postsResponse = await axios.get(`/api/posts/user-posts/${userId}`);
                     const postsData = postsResponse.data;
+
+                    const userNameResponse = await axios.get(`/api/users/get-user-by-id/${userId}`);
+                    setUserName(userNameResponse.data.name);
             
                     const updatedPosts = await Promise.all(
                       postsData.map(async (post) => {
@@ -84,7 +88,7 @@ const UserPosts = ({userId}) => {
                     </Card.Body>
                 </Card>
             )}
-            {!loading && posts.length === 0 && (<span>You have not posted anything yet.</span>)}
+            {!loading && posts.length === 0 && (<span>{userName} has not posted anything yet.</span>)}
             {posts.length >0 && (
                 posts.map(post=>(
                     <div key={post.id} className={styles.post}>

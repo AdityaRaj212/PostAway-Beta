@@ -15,6 +15,7 @@ import { UserContext } from './UserContext';
 
 const ProfilePage = () => {
     const {userId} = useParams();
+    console.log('Requested user Id: ' + userId);
     const [user,setUser] = useState({});
     const [currUserId,setCurrUserId] = useState(null);
     const {userName} = useContext(UserContext);
@@ -41,7 +42,7 @@ const ProfilePage = () => {
         return (
             <div className={styles.container}>
                 {/* column 1 */}
-                            {/* column 1 */}
+                            
             <div className={styles.column1}>
                 <div className={styles.stickyComponents}>
 
@@ -68,7 +69,7 @@ const ProfilePage = () => {
                         <div className={styles.textualInfo}>
                             <div className={styles.nameAndProfile}>
                                 <div className={styles.userName}>
-                                    <FontAwesomeIcon icon={faAt} /> {userName}
+                                    <FontAwesomeIcon icon={faAt} /> {user.name}
                                 </div>
                                 {
                                     (currUserId==user._id) &&

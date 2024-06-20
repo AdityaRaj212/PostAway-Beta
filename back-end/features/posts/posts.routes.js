@@ -1,6 +1,6 @@
 import express from 'express';
 import PostController from './posts.controller.js';
-import { uploadFile } from '../../middlewares/fileUpload.middleware.js';
+import { uploadFile } from '../../middlewares/fileUpload.middleware_old.js';
 
 const router = express.Router();
 
@@ -27,5 +27,8 @@ router.put('/:postId', uploadFile.single('imagePath') ,(req,res)=>{
 router.get('/user/:postId',(req,res)=>{
     postController.getUserFromPost(req,res);
 });
+router.get('/user-posts/:userId',(req,res)=>{
+    postController.getOneUserPosts(req,res);
+})
 
 export default router;
