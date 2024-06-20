@@ -41,12 +41,19 @@ server.use('/api/comments', jwtAuth, commentRouter);
 server.use('/api/likes', jwtAuth, likesRouter);
 
 // Serve static files from the React app
-server.use(express.static(path.join(path.resolve(), 'front-end/build')));
+// server.use(express.static(path.join(path.resolve(), 'front-end/build')));
+
+// Serve static files from the React app
+server.use(express.static(path.join(path.resolve(), 'public')));
 
 // Serve React app for any unknown routes
+// server.get('*', (req, res) => {
+//     res.sendFile(path.join(path.resolve(), 'front-end/build', 'index.html'));
+// });
+
 server.get('*', (req, res) => {
-    res.sendFile(path.join(path.resolve(), 'front-end/build', 'index.html'));
-});
+    res.sendFile(path.join(path.resolve(), 'public', 'index.html'));
+  });
 
 server.listen(3200,()=>{
     console.log('Server is up and running at 3200');
