@@ -21,6 +21,7 @@ const server = express();
 
 server.use(express.urlencoded({extended:true}));
 server.use(cors());
+server.use('/uploads', express.static('../public/uploads'));
 server.use(express.static(path.join(`${path.resolve()}`, '../public')));
 
 // console.log('Path: '+path.join(`${path.resolve()}`, '../public'));
