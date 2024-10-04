@@ -1,4 +1,7 @@
-import './../env.js'; 
+// import './../env.js'; 
+import dotenv from 'dotenv';
+// dotenv.config({ path: './../.env' });
+dotenv.config();
 
 import express from 'express';
 import session from 'express-session';
@@ -19,8 +22,17 @@ import { connectUsingMongoose } from './config/mongoose.js';
 
 const server = express();
 
+const PORT = process.env.PORT || 3200;
+
+console.log(process.env.MONGO_URI);
+
 server.use(express.urlencoded({extended:true}));
 server.use(cors());
+
+const _dirname = path.dirname("");
+const buildpath = path.join(_dirname, "../front-end/build");
+server.use(express.static(buildpath));
+
 server.use('/uploads', express.static('./../public/uploads'));
 server.use(express.static(path.join(`${path.resolve()}`, '../public')));
 
@@ -42,7 +54,7 @@ server.use('/api/comments', jwtAuth, commentRouter);
 server.use('/api/likes', jwtAuth, likesRouter);
 
 // Serve static files from the React app
-server.use(express.static(path.join(path.resolve(), 'front-end/build')));
+// server.use(express.static(path.join(path.resolve(), './front-end/build')));
 
 // Serve static files from the React app
 // server.use(express.static(path.join(path.resolve(), 'public')));
@@ -56,8 +68,8 @@ server.get('*', (req, res) => {
 //     res.sendFile(path.join(path.resolve(), 'public', 'index.html'));
 //   });
 
-server.listen(3200,()=>{
-    console.log('Server is up and running at 3200');
+server.listen(PORT,()=>{
+    console.log(`Server is up and running at Port: ${PORT}`);
     // connectToMongoDB();
     connectUsingMongoose();
 })

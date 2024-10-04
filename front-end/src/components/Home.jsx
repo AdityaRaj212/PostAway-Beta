@@ -59,6 +59,7 @@ const Home = () => {
 
     const fetchPosts = async () => {
         try {
+            console.log(process.env.MONGO_URI);
             const response = await axios.get('/api/posts/all');
             setPosts(response.data.reverse());
             setLoadingPosts(false); // Set loading state to false when posts are fetched
